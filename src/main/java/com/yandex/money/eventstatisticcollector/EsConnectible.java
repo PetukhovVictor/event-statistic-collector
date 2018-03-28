@@ -8,19 +8,71 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * Класс, предоставляющий функциональность для работы с Elasticsearch.
+ */
 abstract class EsConnectible {
-    private static final String ES_HOST = "localhost";
-    private static final Integer ES_PORT = 9300;
+    /**
+     * Название хоста Elasticsearch.
+     */
+    private String esHost = "localhost";
 
-    private static final String ES_CLUSTER_NAME = "test";
-    private static final String ES_NODE_NAME = "main";
+    /**
+     * Порт сервера Elasticsearch.
+     */
+    private Integer esPort = 9300;
 
+    /**
+     * Название кластера Elasticsearch.
+     */
+    private String esClusterName = "test";
+
+    /**
+     * Название узла Elasticsearch.
+     */
+    private String esNodeName = "main";
+
+    /**
+     * Клиент для общения с Elasticsearch.
+     */
     protected TransportClient client;
 
+    /**
+     * Конструктор для параметров соединения по умолчанию.
+     */
     EsConnectible() {
+        connect();
+    }
+
+    /**
+     * Конструктор с указание только хоста и порта.
+     */
+    EsConnectible(String host, Integer port) {
+        esHost = host;
+        esPort = port;
+
+        connect();
+    }
+
+    /**
+     * Конструктор.
+     */
+    EsConnectible(String host, Integer port, String cluster, String node) {
+        esHost = host;
+        esPort = port;
+        esClusterName = cluster;
+        esNodeName = node;
+
+        connect();
+    }
+
+    /**
+     * Инициализация соединения с Elasticsearch.
+     */
+    private void connect() {
         try {
-            Settings settings = Settings.builder().put("cluster.name", ES_CLUSTER_NAME).put("node.name", ES_NODE_NAME).build();
-            TransportAddress transport = new TransportAddress(InetAddress.getByName(ES_HOST), ES_PORT);
+            Settings settings = Settings.builder().put("cluster.name", esClusterName).put("node.name", esNodeName).build();
+            TransportAddress transport = new TransportAddress(InetAddress.getByName(esHost), esPort);
 
             client = new PreBuiltTransportClient(settings).addTransportAddress(transport);
         } catch (UnknownHostException e) {

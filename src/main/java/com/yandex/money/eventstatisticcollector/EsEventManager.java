@@ -9,23 +9,24 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.joda.time.DateTime;
 
 /**
- * Elasticsearch event manager. Класс, предоставляющий функционал для учета и подсчета событий.
+ * Elasticsearch event manager.
+ * Класс, предоставляющий функционал для учета и подсчета событий с использованием Elasticsearch.
  */
 public final class EsEventManager extends EsConnectible implements EventManager {
-    /**
-     * Иднекс в Elasticsearch, в котором будут храниться события.
-     */
-    private static final String ES_INDEX = "events";
-
-    /**
-     * Тип в Elasticsearch для записей событий.
-     */
-    private static final String ES_TYPE = "my_event_type";
-
     /**
      * Название поля в Elasticsearch с датой события.
      */
     private static final String ES_DATE_FILED_NAME = "date";
+
+    /**
+     * Иднекс в Elasticsearch, в котором будут храниться события.
+     */
+    private String esIndex = "events";
+
+    /**
+     * Тип в Elasticsearch для записей событий.
+     */
+    private String esType = "time_point";
 
     /**
      * Сериализация объекта события в JSON.
@@ -38,12 +39,31 @@ public final class EsEventManager extends EsConnectible implements EventManager 
     }
 
     /**
+     * Установка индекса в Elasticsearch, который будет использовать для записи событий.
+     *
+     * @param indexName Название индекса в Elasticsearch.
+     */
+    public void setEsIndex(String indexName) {
+        esIndex = indexName;
+    }
+
+    /**
+     * Установка типа в Elasticsearch для записей событий.
+     *
+     * @param typeName Название типа для записей в Elasticsearch.
+     */
+    private void setEsType(String typeName) {
+        esType = typeName;
+    }
+
+    /**
      * Учет события.
      *
      * @param time Время наступления события.
      */
     public void considerEvent(DateTime time) {
-        IndexRequest request = new IndexRequest(ES_INDEX, ES_TYPE);
+        IndexRequest request = new IndexRequest(esIndex, esType);
+
         EventDTO event = new EventDTO(time);
 
         request.source(eventObjectSerialize(event), XContentType.JSON);
@@ -60,8 +80,8 @@ public final class EsEventManager extends EsConnectible implements EventManager 
                 .rangeQuery(ES_DATE_FILED_NAME)
                 .from(time.getMillis());
 
-        SearchResponse response = client.prepareSearch(ES_INDEX)
-                .setTypes(ES_TYPE)
+        SearchResponse response = client.prepareSearch(esIndex)
+                .setTypes(esType)
                 .setQuery(qb)
                 .get();
 
