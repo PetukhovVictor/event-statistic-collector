@@ -52,7 +52,7 @@ public final class EsEventManager extends EsConnectible implements EventManager 
      *
      * @param typeName Название типа для записей в Elasticsearch.
      */
-    private void setEsType(String typeName) {
+    public void setEsType(String typeName) {
         esType = typeName;
     }
 
