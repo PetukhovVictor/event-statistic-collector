@@ -76,7 +76,7 @@ abstract class EsConnectible {
 
             client = new PreBuiltTransportClient(settings).addTransportAddress(transport);
         } catch (UnknownHostException e) {
-
+            e.printStackTrace();
         }
     }
 }
