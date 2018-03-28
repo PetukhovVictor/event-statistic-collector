@@ -9,6 +9,11 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude ('META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA')
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile "org.elasticsearch.client:transport:6.2.3"
