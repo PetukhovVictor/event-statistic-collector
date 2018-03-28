@@ -25,7 +25,7 @@ abstract class EsConnectible {
     /**
      * Название кластера Elasticsearch.
      */
-    private String esClusterName = "test";
+    private String esClusterName = "production";
 
     /**
      * Название узла Elasticsearch.
