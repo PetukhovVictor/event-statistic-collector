@@ -39,7 +39,7 @@
 
 ### Пример использования
 
-Скачать библиотеку можно из раздела [Assets](https://github.com/PetukhovVictor/event-statistic-collector/releases).
+Скачать библиотеку можно из раздела [Releases](https://github.com/PetukhovVictor/event-statistic-collector/releases).
 
 После добавления библиотеки в проект Вы можете использовать доступный функционал:
 ```java
