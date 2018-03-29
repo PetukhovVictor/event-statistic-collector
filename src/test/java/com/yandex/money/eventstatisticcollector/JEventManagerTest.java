@@ -24,9 +24,10 @@ public class JEventManagerTest {
 
         JEventManager eventManager = JEventManager.getInstance();
 
-        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE + 100));
+        eventManager.considerEvent(new Date());
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE - 100));
-        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE + 100));
+        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE - 100));
+        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE + 10000)); // plus 10 seconds
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR - 100));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR + 100));
@@ -41,13 +42,14 @@ public class JEventManagerTest {
 
     @Test
     public void countEventsInLastHour() {
-        Integer expectedEventNumber = 4;
+        Integer expectedEventNumber = 5;
 
         JEventManager eventManager = JEventManager.getInstance();
 
+        eventManager.considerEvent(new Date());
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR - 100));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR - 100));
-        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR + 100));
+        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR + 10000)); // plus 10 seconds
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE - 100));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_MINUTE + 100));
@@ -62,13 +64,14 @@ public class JEventManagerTest {
 
     @Test
     public void countEventsInLastDay() {
-        Integer expectedEventNumber = 7;
+        Integer expectedEventNumber = 8;
 
         JEventManager eventManager = JEventManager.getInstance();
 
+        eventManager.considerEvent(new Date());
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_DAY - 100));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_DAY - 100));
-        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_DAY + 100));
+        eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_DAY + 10000)); // plus 10 seconds
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR - 100));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR));
         eventManager.considerEvent(new Date(System.currentTimeMillis() - MILLIS_IN_HOUR + 100));
