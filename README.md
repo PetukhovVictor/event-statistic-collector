@@ -16,26 +16,8 @@
 
 ## Хранение событий
 
-Для хранения событий используется [Elasticsearch](https://www.elastic.co/products/elasticsearch).
-
-### Подключение к Elasticsearch
-По умолчанию установка соединения происходит со следующими параметрами:
-- имя хоста: `localhost`;
-- номер порта: `9300`;
-- название кластера: `production`;
-- название узла (node): `main`.
-
-Вы можете установить данные параметры самостоятельно, передав их в конструктор класса `EsEventManager`:
-- `new EsEventManager('my_host', my_port)`;
-- `new EsEventManager('my_host', my_port, 'my_cluster', 'my_node')`.
-
-Пример конфигурации Elasticsearch приведен в [данном файле](https://github.com/PetukhovVictor/event-statistic-collector/blob/master/elasticsearch.example.yml).
-
-### Создание индекса и отображения
-
-Для создания необходимого индекса и отображения (mapping) в Elasticsearch Вы можете запустить [прилагаемый скрипт](https://github.com/PetukhovVictor/event-statistic-collector/blob/master/create_es_index.sh).
-
-При необходимости внесите в скрипт правки по имени хоста, порту, имени индекса и типу записей.
+Для хранения событий используется карта, ключи которой расположены на красно-черном дереве (TreeMap).
+Благодаря такому расположению ключей имеется возможность достаточно быстро получить заданный срез (по заданной отметке времени).
 
 ### Пример использования
 
@@ -45,27 +27,36 @@
 ```java
 package com.company;
 
-import com.yandex.money.eventstatisticcollector.EsEventManager;
-import org.joda.time.DateTime;
+import com.yandex.money.eventstatisticcollector.JEventManager;
 
-public class Main {
+import java.util.Date;
+
+public class Test {
     public static void main(String[] args) {
-        EsEventManager eventManager = new EsEventManager();
+        EventManager manager = JEventManager.getInstance();
+        manager.considerEvent(new Date());
+        manager.considerEvent(new Date());
+        manager.considerEvent(new Date());
 
-        eventManager.considerEvent(new DateTime());
-        eventManager.considerEvent(new DateTime());
-        eventManager.considerEvent(new DateTime());
+        try {
+            Thread.sleep(61 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println(eventManager.countEventsInLastMinute());
-        System.out.println(eventManager.countEventsInLastHour());
+        manager.considerEvent(new Date());
+        manager.considerEvent(new Date());
+
+        System.out.println(manager.countEventsInLastMinute());
+        System.out.println(manager.countEventsInLastHour());
     }
 }
 ```
 
 Вывод для приведенного примера:
 ```
-3
-3
+2
+5
 
 Process finished with exit code 0
 ```
