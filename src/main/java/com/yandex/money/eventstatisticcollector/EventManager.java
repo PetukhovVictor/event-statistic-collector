@@ -1,6 +1,6 @@
 package com.yandex.money.eventstatisticcollector;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 interface EventManager {
     /**
@@ -8,20 +8,20 @@ interface EventManager {
      *
      * @param time Время наступления события.
      */
-    void considerEvent(DateTime time);
+    void considerEvent(Date time);
 
     /**
      * Подсчет колечества событий, произошедших за последнюю минуту.
      */
-    Long countEventsInLastMinute();
+    Integer countEventsInLastMinute();
 
     /**
      * Подсчет колечества событий, произошедших за последний час.
      */
-    Long countEventsInLastHour();
+    Integer countEventsInLastHour();
 
     /**
      * Подсчет колечества событий, произошедших за последний день.
      */
-    Long countEventsInLastDay();
+    Integer countEventsInLastDay();
 }
