@@ -15,7 +15,7 @@ public class JEventManagerTest {
 
     @Before
     public void initEach(){
-        JEventManager.getInstance().clearEvents();
+        JEventManager.getInstance().cleanEvents();
     }
 
     @Test

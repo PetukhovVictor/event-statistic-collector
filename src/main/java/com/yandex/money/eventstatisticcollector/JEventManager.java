@@ -81,7 +81,7 @@ public final class JEventManager implements EventManager {
     /**
      * Очистка всех имеющихся событий.
      */
-    public void clearEvents() {
+    public void cleanEvents() {
         events.clear();
     }
 
