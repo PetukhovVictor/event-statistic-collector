@@ -79,6 +79,13 @@ public final class JEventManager implements EventManager {
     }
 
     /**
+     * Очистка всех имеющихся событий.
+     */
+    public void clearEvents() {
+        events.clear();
+    }
+
+    /**
      * Подсчет колечества событий, произошедших за последнюю минуту.
      */
     public Integer countEventsInLastMinute() {
